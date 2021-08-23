@@ -1,0 +1,45 @@
+---
+title: "01_Make_Data"
+author: "Feiya Suo"
+date: "8/23/2021"
+output: html_document
+---
+
+
+```{r, eval = FALSE}
+install.packages("tidyverse")
+```
+
+```{r, eval = FALSE}
+#install.packages("tidytuesdayR")
+```
+
+```{r,eval = FALSE}
+install.packages(c("readxl", "rvest", "tools", "lubridate", 
+                   "purrr", "readr", "rstudioapi" , "xml2", 
+                   "httr", "jsonlite", "magrittr", "usethis"))
+```
+
+```{r}
+library(tidyverse)
+library(tidytuesdayR)
+```
+
+## Pick a project and download it.
+
+```{r}
+#tt_available()
+tt_data <- tt_load(2021, week=7) 
+```
+
+Save the extract the resulting dataset with a sensible name. I'm working on the plastics data.
+
+```{r}
+df <- tt_data$race_wealth
+head(df)
+dim(df)
+```
+
+```{r}
+readme(tt_data)
+```
