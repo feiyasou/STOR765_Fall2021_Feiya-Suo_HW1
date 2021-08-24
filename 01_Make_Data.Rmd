@@ -6,21 +6,12 @@ output: html_document
 ---
 
 
-```{r, eval = FALSE}
-install.packages("tidyverse")
-```
-
-```{r, eval = FALSE}
-#install.packages("tidytuesdayR")
-```
-
-```{r,eval = FALSE}
-install.packages(c("readxl", "rvest", "tools", "lubridate", 
-                   "purrr", "readr", "rstudioapi" , "xml2", 
-                   "httr", "jsonlite", "magrittr", "usethis"))
-```
-
+## Install packages
 ```{r}
+#install.packages("tidyverse")
+#install.packages("tidytuesdayR")
+#install.packages(c("readxl", "rvest", "tools", "lubridate", "purrr", "readr", "rstudioapi" , "xml2", "httr", "jsonlite", "magrittr", "usethis"))
+
 library(tidyverse)
 library(tidytuesdayR)
 ```
@@ -32,12 +23,12 @@ library(tidytuesdayR)
 tt_data <- tt_load(2021, week=7) 
 ```
 
-Save the extract the resulting dataset with a sensible name. I'm working on the plastics data.
+Save the extract the resulting dataset with a sensible name. I'm working on an annual data about race and average income.
 
 ```{r}
-df <- tt_data$race_wealth
-head(df)
-dim(df)
+race_income <- tt_data$race_wealth
+head(race_income)
+dim(race_income)
 ```
 
 ```{r}
