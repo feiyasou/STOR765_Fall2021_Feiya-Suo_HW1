@@ -1,0 +1,64 @@
+---
+title: "03_Killer_Graph"
+author: "Feiya Suo"
+date: "8/24/2021"
+output: html_document
+---
+## Install packages
+```{r}
+#install.packages("tidyverse")
+#install.packages("tidytuesdayR")
+#install.packages(c("readxl", "rvest", "tools", "lubridate", "purrr", "readr", "rstudioapi" , "xml2", "httr", "jsonlite", "magrittr", "usethis"))
+
+library(tidyverse)
+library(tidytuesdayR)
+```
+
+## Pick a project and download it.
+
+```{r}
+tt_available()
+tt_data <- tt_load(2021, week=7) 
+race_income <- tt_data$race_wealth
+head(race_income)
+```
+
+## Killer Graph
+```{r}
+
+# install package
+library(tidyverse)
+library(tidytuesdayR)
+library(ggplot2)
+
+# read data
+tt_data <- tt_load(2021, week=7) 
+race_income <- tt_data$race_wealth
+head(race_income)
+
+# remove missing data
+race_income <- na.omit(race_income) 
+
+# manage data
+race_income <- race_income[race_income$year>1963,]
+race_income <- race_income[race_income$race!='Non-White',]
+avg <- race_income[race_income$type=='Average',]
+median <- race_income[race_income$type=='Median',]
+
+# visualization
+ggplot(avg, aes(year, wealth_family, colour=race)) + 
+    geom_line() + 
+    geom_point() +
+    ggtitle("Change in Average Family Wealth by Race") +
+    theme(plot.title = element_text(hjust = 0.5))
+
+ggplot(median, aes(year, wealth_family, colour=race)) + 
+    geom_line() + 
+    geom_point() +
+    ggtitle("Change in Median Family Wealth by Race") +
+    theme(plot.title = element_text(hjust = 0.5))
+```
+
+## Analyses
+As we can observe from the two figures, the race gap, basically the gap between white and non-whilte population, on family wealth is very salient both on median and mean. The wealth gap is becoming bigger and bigger; since 1995, the gap experienced a significant growth. this trend is more clear in mean family wealth. The gap in median family wealth decreased since 2010, but it is still very large.
+Inside the non-white population, black and hispanic people do not have any big difference. The average family wealth is slightli higher in the hispanic population, but the gap does not increase significantly since the 1980s.

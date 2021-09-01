@@ -1,0 +1,70 @@
+---
+title: "02_Explore_Data"
+author: "Feiya Suo"
+date: "8/23/2021"
+output: html_document
+---
+
+
+## Install packages
+```{r}
+#install.packages("tidyverse")
+#install.packages("tidytuesdayR")
+#install.packages(c("readxl", "rvest", "tools", "lubridate", "purrr", "readr", "rstudioapi" , "xml2", "httr", "jsonlite", "magrittr", "usethis"))
+
+library(tidyverse)
+library(tidytuesdayR)
+```
+
+## Pick a project and download it.
+
+I choose the data about race and wealth level. It is interesting to study if there is any systematic race bias in the level of family wealth. If yes, how does the bias change over time?
+```{r}
+tt_data <- tt_load(2021, week=7) 
+race_income <- tt_data$race_wealth
+head(race_income)
+```
+
+## Explore Data
+
+By calculating the average income of difference races over time, it is obvious that white population has the highest level of family wealth. It is 5.72 times higher than Black people, and 4.72 higher than the Hispanic population.
+
+When we look at median, the conclusion is the same: the median family wealth of white people is still the highest. It is 8 times hier than black, and 9.14 times higher than the median fmaily wealth of hispanic population.
+```{r}
+# remove missing data
+race_income <- na.omit(race_income) 
+
+# manage data
+race_income <- race_income[race_income$year>1963,]
+race_income <- race_income[race_income$race!='Non-White',]
+
+# calculate group mean
+avg <- race_income[race_income$type=='Average',]
+
+tapply(avg$wealth_family, avg$race, mean)
+
+tapply(avg$wealth_family, avg$race, mean)[3]/tapply(avg$wealth_family, avg$race, mean)[1]
+
+tapply(avg$wealth_family, avg$race, mean)[3]/tapply(avg$wealth_family, avg$race, mean)[2]
+
+
+# calculate group median
+median <- race_income[race_income$type=='Median',]
+
+tapply(median$wealth_family, median$race, mean)
+
+tapply(median$wealth_family, median$race, mean)[3]/tapply(median$wealth_family, median$race, mean)[1]
+
+tapply(median$wealth_family, median$race, mean)[3]/tapply(median$wealth_family, median$race, mean)[2]
+
+```
+
+## Visualization
+
+```{r}
+barplot(tapply(avg$wealth_family, avg$race, mean), main="Average Family Wealth by Race",
+   xlab="Race", ylab="Family Wealth")
+
+barplot(tapply(median$wealth_family, median$race, mean), main="Median Family Wealth by Race",
+   xlab="Race", ylab="Family Wealth")
+```
